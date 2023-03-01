@@ -1,12 +1,27 @@
 import { ContactForm } from './Form/Form';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
-import { useSelector } from 'react-redux';
-import { getStatusFilter, getContacts } from 'redux/selectors';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getStatusFilter,
+  getContacts,
+  getError,
+  getIsLoading,
+} from 'redux/selectors';
+import { fetchContacts } from 'redux/operations';
 
 export default function App() {
+  const dispatch = useDispatch();
+
   const contacts = useSelector(getContacts);
   const filter = useSelector(getStatusFilter);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div
@@ -21,14 +36,13 @@ export default function App() {
       <h1>Phonebook</h1>
       <ContactForm />
       <h2>Contacts</h2>
-      {contacts.length || filter ? (
-        <>
-          <Filter />
-          <ContactList />
-        </>
+      {contacts.length > 0 || filter || isLoading ? (
+        <Filter />
       ) : (
         <p>Contacts is empty!</p>
       )}
+      {isLoading && !error && <p>Loading data...</p>}
+      <ContactList />
     </div>
   );
 }

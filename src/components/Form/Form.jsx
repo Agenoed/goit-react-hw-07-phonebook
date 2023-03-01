@@ -3,7 +3,7 @@ import { Formik, ErrorMessage } from 'formik';
 import css from './Form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 
 const FormError = ({ name }) => {
   return <ErrorMessage name={name} render={message => <p>{message}</p>} />;
