@@ -23,7 +23,7 @@ export const contactsSlice = createSlice({
         const index = state.items.findIndex(
           item => item.id === action.payload.id
         );
-        state.contacts.splice(index, 1);
+        state.items.splice(index, 1);
       })
       .addMatcher(isAnyOf(...getActions('pending')), state => {
         state.isLoading = true;
